@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Category } from './category/entities/category.entity';
 import { CategoryModule } from './category/category.module';
+import { ParentCategory } from './category/entities/parent-category.entity';
 
 @Module({
   imports: [
@@ -14,8 +15,9 @@ import { CategoryModule } from './category/category.module';
       username: 'root',
       password: 'root',
       database: 'legends',
-      entities: [Category],
+      entities: [Category, ParentCategory],
       synchronize: true,
+      logging: true,
     }),
     CategoryModule,
   ],

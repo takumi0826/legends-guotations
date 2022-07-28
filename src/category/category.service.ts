@@ -3,20 +3,33 @@ import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { Category } from './entities/category.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, SelectQueryBuilder } from 'typeorm';
+import { ParentCategory } from './entities/parent-category.entity';
 
 @Injectable()
 export class CategoryService {
   constructor(
     @InjectRepository(Category)
     private categoryRepository: Repository<Category>,
+    @InjectRepository(ParentCategory)
+    private parentCategoryRepository: Repository<ParentCategory>,
   ) {}
   create(createCategoryDto: CreateCategoryDto) {
     return 'This action adds a new category';
   }
 
-  findAll(): Promise<Category[]> {
-    return this.categoryRepository.find();
+  async findAll() {
+    return await this.parentCategoryRepository
+      .createQueryBuilder('parent')
+      .innerJoinAndSelect('parent.id', 'category')
+      .select([
+        'parent.type',
+        'parent.name',
+        'category.name',
+        'category.parent',
+      ])
+      // .where('category.parentId = :id', { id: 1 })
+      .getRawMany();
   }
 
   findOne(id: number) {
