@@ -5,6 +5,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Category } from './category/entities/category.entity';
 import { CategoryModule } from './category/category.module';
 import { ParentCategory } from './category/entities/parent-category.entity';
+import { LegendsModule } from './legends/legends.module';
+import { Legend } from './legends/entities/legend.entity';
+import { LegendCategory } from './legends/entities/legend-category.entity';
 
 @Module({
   imports: [
@@ -15,11 +18,12 @@ import { ParentCategory } from './category/entities/parent-category.entity';
       username: 'root',
       password: 'root',
       database: 'legends',
-      entities: [Category, ParentCategory],
+      entities: [Category, ParentCategory, Legend, LegendCategory],
       synchronize: true,
       logging: true,
     }),
     CategoryModule,
+    LegendsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,10 +1,12 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { LegendCategory } from 'src/legends/entities/legend-category.entity';
+import { Entity, Column, PrimaryColumn, ManyToOne, OneToMany } from 'typeorm';
 import { ParentCategory } from './parent-category.entity';
 
 @Entity()
 export class Category {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryColumn()
+  @OneToMany(() => LegendCategory, (legend) => legend.child)
+  id: string;
 
   @Column()
   name: string;

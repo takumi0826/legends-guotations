@@ -1,17 +1,14 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryColumn, OneToMany } from 'typeorm';
 import { Category } from './category.entity';
 
 @Entity()
 export class ParentCategory {
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn({ length: 3 })
   @OneToMany(() => Category, (category) => category.parent)
-  id: number;
+  id: string;
 
   @Column()
   name: string;
-
-  @Column()
-  type: string;
 
   @Column({ default: false })
   delFlag: boolean;

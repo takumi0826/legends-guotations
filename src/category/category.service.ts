@@ -19,17 +19,22 @@ export class CategoryService {
   }
 
   async findAll() {
-    return await this.parentCategoryRepository
-      .createQueryBuilder('parent')
-      .innerJoinAndSelect('parent.id', 'category')
-      .select([
-        'parent.type',
-        'parent.name',
-        'category.name',
-        'category.parent',
-      ])
-      // .where('category.parentId = :id', { id: 1 })
-      .getRawMany();
+    return await this.parentCategoryRepository.find({
+      select: {
+        id: true,
+        name: true,
+      },
+      where: {
+        delFlag: false,
+      },
+    });
+
+    // return await this.parentCategoryRepository
+    //   .createQueryBuilder('parent')
+    //   .innerJoinAndSelect('parent.id', 'category')
+    //   .select(['parent.id', 'parent.name', 'category.name', 'category.parent'])
+    //   // .where('category.parentId = :id', { id: 1 })
+    //   .getRawMany();
   }
 
   findOne(id: number) {
