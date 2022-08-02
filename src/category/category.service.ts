@@ -19,7 +19,7 @@ export class CategoryService {
   }
 
   async findAll() {
-    return await this.parentCategoryRepository.find({
+    const res = await this.parentCategoryRepository.find({
       select: {
         id: true,
         name: true,
@@ -28,13 +28,7 @@ export class CategoryService {
         delFlag: false,
       },
     });
-
-    // return await this.parentCategoryRepository
-    //   .createQueryBuilder('parent')
-    //   .innerJoinAndSelect('parent.id', 'category')
-    //   .select(['parent.id', 'parent.name', 'category.name', 'category.parent'])
-    //   // .where('category.parentId = :id', { id: 1 })
-    //   .getRawMany();
+    return res.map((v) => v.name);
   }
 
   findOne(id: number) {
