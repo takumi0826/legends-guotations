@@ -1,5 +1,13 @@
-import { Column, PrimaryGeneratedColumn, OneToMany, Entity } from 'typeorm';
-import { LegendCategory } from './legend-category.entity';
+import { Category } from 'src/category/entities/category.entity';
+import { ParentCategory } from 'src/category/entities/parent-category.entity';
+import {
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  Entity,
+  ManyToMany,
+  OneToOne,
+} from 'typeorm';
 
 @Entity()
 export class Legend {
@@ -12,9 +20,6 @@ export class Legend {
   @Column()
   name: string;
 
-  // @Column()
-  // parent: string;
-
-  // @ManyToOne(() => Category, (category) => category.childId)
-  // categoryChild: string;
+  @OneToOne(() => ParentCategory, (parent) => parent.legend)
+  category: ParentCategory;
 }
