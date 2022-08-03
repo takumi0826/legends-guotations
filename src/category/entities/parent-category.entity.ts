@@ -20,11 +20,11 @@ export class ParentCategory {
   name: string;
 
   @OneToMany(() => Category, (category) => category.parent)
-  child: Category[];
-
-  @OneToOne(() => Legend, (legend) => legend.id)
-  @JoinColumn({ name: 'legend_id', referencedColumnName: 'id' })
-  legend: Legend;
+  @JoinColumn({
+    name: 'child',
+    referencedColumnName: 'id',
+  })
+  child: Category;
 
   @Column({ default: false, select: false })
   delFlag: boolean;

@@ -23,30 +23,35 @@ export class LegendsService {
     private legendRepository: Repository<Legend>,
     @InjectRepository(ParentCategory)
     private parentRepository: Repository<ParentCategory>,
+    @InjectRepository(Category)
+    private categoryRepository: Repository<Category>,
   ) {}
 
   create(createLegendDto: CreateLegendDto) {
     return 'This action adds a new legend';
   }
 
-  async findAll(): Promise<Item[]> {
+  async findAll() {
     const res = await this.legendRepository
       .createQueryBuilder('legend')
-      .innerJoinAndSelect('legend.category', 'parent_category')
-      .innerJoinAndSelect('parent_category.child', 'category')
-      .where('parent_category.delFlag = :flag', { flag: false })
+      .innerJoinAndSelect('legend.category', 'category')
+      // .innerJoinAndSelect('category.parent', 'parent_category')
+      // .select(['legend.id as category'])
+      // .where('parent_category.delFlag = :flag', { flag: false })
       .getMany();
 
-    return res.map((v) => {
-      return {
-        meigen: v.meigen,
-        name: v.name,
-        category: {
-          parent: v.category.name,
-          child: v.category.child.map((v) => v.name),
-        },
-      };
-    });
+    return res;
+
+    // return res.map((v) => {
+    //   return {
+    //     meigen: v.meigen,
+    //     name: v.name,
+    //     category: {
+    //       parent: v.category.name,
+    //       child: v.category.child.map((v) => v.name),
+    //     },
+    //   };
+    // });
   }
 
   findOne(id: number) {

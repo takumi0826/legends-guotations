@@ -7,6 +7,7 @@ import {
   Entity,
   ManyToMany,
   OneToOne,
+  JoinColumn,
 } from 'typeorm';
 
 @Entity()
@@ -20,6 +21,10 @@ export class Legend {
   @Column()
   name: string;
 
-  @OneToOne(() => ParentCategory, (parent) => parent.legend)
-  category: ParentCategory;
+  @OneToMany(() => Category, (category) => category.legend)
+  @JoinColumn({
+    name: 'id',
+    referencedColumnName: 'legend',
+  })
+  category: Category[];
 }
