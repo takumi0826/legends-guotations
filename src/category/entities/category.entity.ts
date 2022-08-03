@@ -1,3 +1,4 @@
+import { Legend } from 'src/legends/entities/legend.entity';
 import {
   Entity,
   Column,
@@ -19,8 +20,10 @@ export class Category {
   name: string;
 
   @ManyToOne(() => ParentCategory, (parent) => parent.id)
-  @JoinColumn({ name: 'parentId' })
   parent: ParentCategory;
+
+  @ManyToOne(() => Legend, (legend) => legend.id)
+  legend: Legend;
 
   @Column({ default: false, select: false })
   delFlag: boolean;
