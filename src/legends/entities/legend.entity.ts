@@ -7,11 +7,18 @@ import {
   Entity,
   ManyToMany,
   OneToOne,
+  JoinTable,
+  JoinColumn,
+  PrimaryColumn,
 } from 'typeorm';
+import { LegendCategory } from './legend-category.entity';
 
 @Entity()
 export class Legend {
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn()
+  @OneToMany(() => LegendCategory, (lc) => lc.legendId, {
+    onDelete: 'CASCADE',
+  })
   id: number;
 
   @Column()
@@ -19,7 +26,4 @@ export class Legend {
 
   @Column()
   name: string;
-
-  @OneToOne(() => ParentCategory, (parent) => parent.legend)
-  category: ParentCategory;
 }

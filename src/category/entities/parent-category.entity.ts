@@ -1,3 +1,4 @@
+import { LegendCategory } from 'src/legends/entities/legend-category.entity';
 import { Legend } from 'src/legends/entities/legend.entity';
 import {
   Entity,
@@ -8,12 +9,17 @@ import {
   OneToOne,
   JoinColumn,
   PrimaryGeneratedColumn,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 import { Category } from './category.entity';
 
 @Entity()
 export class ParentCategory {
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn()
+  @OneToMany(() => LegendCategory, (lc) => lc.parentId, {
+    onDelete: 'CASCADE',
+  })
   id: number;
 
   @Column()
@@ -21,10 +27,6 @@ export class ParentCategory {
 
   @OneToMany(() => Category, (category) => category.parent)
   child: Category[];
-
-  @OneToOne(() => Legend, (legend) => legend.id)
-  @JoinColumn({ name: 'legend_id', referencedColumnName: 'id' })
-  legend: Legend;
 
   @Column({ default: false, select: false })
   delFlag: boolean;
