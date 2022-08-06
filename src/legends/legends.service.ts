@@ -1,11 +1,7 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/prisma.service';
 import { CreateLegendDto } from './dto/create-legend.dto';
 import { UpdateLegendDto } from './dto/update-legend.dto';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Legend } from './entities/legend.entity';
-import { Repository, SelectQueryBuilder } from 'typeorm';
-import { Category } from 'src/category/entities/category.entity';
-import { ParentCategory } from 'src/category/entities/parent-category.entity';
 
 type Item = {
   meigen: string;
@@ -18,40 +14,44 @@ type Item = {
 
 @Injectable()
 export class LegendsService {
-  constructor(
-    @InjectRepository(Legend)
-    private legendRepository: Repository<Legend>,
-    @InjectRepository(ParentCategory)
-    private parentRepository: Repository<ParentCategory>,
-    @InjectRepository(Category)
-    private categoryRepository: Repository<Category>,
-  ) {}
+  constructor(private prisma: PrismaService) {}
 
-  create(createLegendDto: CreateLegendDto) {
-    return 'This action adds a new legend';
+  async create(createLegendDto: CreateLegendDto) {
+    // createLegendDto.name = '木梨憲武';
+    // createLegendDto.meigen = '撮れてる';
+    // createLegendDto.cateogory = [{ id: 1 }, { id: 2 }];
+
+    const legend = await this.prisma.legend.create({
+      data: {
+        name: createLegendDto.name,
+        meigen: createLegendDto.meigen,
+      },
+    });
+    const data = createLegendDto.category.map((categoryId) => {
+      return {
+        legendId: legend.id,
+        categoryId,
+      };
+    });
+    return this.prisma.legend_category.createMany({ data });
   }
 
   async findAll() {
-    const res = await this.legendRepository
-      .createQueryBuilder('legend')
-      .innerJoinAndSelect('legend.category', 'category')
-      // .innerJoinAndSelect('category.parent', 'parent_category')
-      // .select(['legend.id as category'])
-      // .where('parent_category.delFlag = :flag', { flag: false })
-      .getMany();
-
-    return res;
-
-    // return res.map((v) => {
-    //   return {
-    //     meigen: v.meigen,
-    //     name: v.name,
-    //     category: {
-    //       parent: v.category.name,
-    //       child: v.category.child.map((v) => v.name),
-    //     },
-    //   };
-    // });
+    const res = await this.prisma.legend.findMany({
+      include: {
+        categories: { include: { category: { include: { parent: true } } } },
+      },
+    });
+    return res.map((v) => {
+      return {
+        meigen: v.meigen,
+        name: v.name,
+        category: {
+          parent: v.categories.map((c) => c.category.parent.name),
+          child: v.categories.map((c) => c.category.name),
+        },
+      };
+    });
   }
 
   findOne(id: number) {
