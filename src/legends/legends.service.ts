@@ -7,7 +7,7 @@ type Item = {
   meigen: string;
   name: string;
   category: {
-    parent: string;
+    parent: string[];
     child: string[];
   };
 };
@@ -17,10 +17,6 @@ export class LegendsService {
   constructor(private prisma: PrismaService) {}
 
   async create(createLegendDto: CreateLegendDto) {
-    // createLegendDto.name = '木梨憲武';
-    // createLegendDto.meigen = '撮れてる';
-    // createLegendDto.cateogory = [{ id: 1 }, { id: 2 }];
-
     const legend = await this.prisma.legend.create({
       data: {
         name: createLegendDto.name,
@@ -36,7 +32,7 @@ export class LegendsService {
     return this.prisma.legend_category.createMany({ data });
   }
 
-  async findAll() {
+  async findAll(): Promise<Item[]> {
     const res = await this.prisma.legend.findMany({
       include: {
         categories: { include: { category: { include: { parent: true } } } },
