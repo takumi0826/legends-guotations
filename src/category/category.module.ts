@@ -1,13 +1,11 @@
 import { Module } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { CategoryController } from './category.controller';
-import { Category } from './entities/category.entity';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { ParentCategory } from './entities/parent-category.entity';
+import { PrismaService } from 'src/prisma.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Category, ParentCategory])],
+  imports: [PrismaService],
   controllers: [CategoryController],
-  providers: [CategoryService],
+  providers: [CategoryService, PrismaService],
 })
 export class CategoryModule {}

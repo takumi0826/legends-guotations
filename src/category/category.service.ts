@@ -1,34 +1,19 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/prisma.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
-import { Category } from './entities/category.entity';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, SelectQueryBuilder } from 'typeorm';
-import { ParentCategory } from './entities/parent-category.entity';
 
 @Injectable()
 export class CategoryService {
-  constructor(
-    @InjectRepository(Category)
-    private categoryRepository: Repository<Category>,
-    @InjectRepository(ParentCategory)
-    private parentCategoryRepository: Repository<ParentCategory>,
-  ) {}
+  constructor(private prisma: PrismaService) {}
   create(createCategoryDto: CreateCategoryDto) {
     return 'This action adds a new category';
   }
 
   async findAll() {
-    const res = await this.parentCategoryRepository.find({
-      select: {
-        id: true,
-        name: true,
-      },
-      where: {
-        delFlag: false,
-      },
+    return this.prisma.category.findMany({
+      include: { parent: true },
     });
-    return res.map((v) => v.name);
   }
 
   findOne(id: number) {

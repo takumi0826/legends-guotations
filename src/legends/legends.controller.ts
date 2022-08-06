@@ -15,7 +15,7 @@ import { UpdateLegendDto } from './dto/update-legend.dto';
 export class LegendsController {
   constructor(private readonly legendsService: LegendsService) {}
 
-  @Post()
+  @Post('/create')
   create(@Body() createLegendDto: CreateLegendDto) {
     return this.legendsService.create(createLegendDto);
   }
