@@ -3,15 +3,6 @@ import { PrismaService } from 'src/prisma.service';
 import { CreateLegendDto } from './dto/create-legend.dto';
 import { UpdateLegendDto } from './dto/update-legend.dto';
 
-type Item = {
-  meigen: string;
-  name: string;
-  category: {
-    parent: string[];
-    child: string[];
-  };
-};
-
 @Injectable()
 export class LegendsService {
   constructor(private prisma: PrismaService) {}
@@ -32,7 +23,7 @@ export class LegendsService {
     return this.prisma.legend_category.createMany({ data });
   }
 
-  async findAll(): Promise<Item[]> {
+  async findAll() {
     const res = await this.prisma.legend.findMany({
       include: {
         categories: { include: { category: { include: { parent: true } } } },
@@ -42,10 +33,19 @@ export class LegendsService {
       return {
         meigen: v.meigen,
         name: v.name,
-        category: {
-          parent: v.categories.map((c) => c.category.parent.name),
-          child: v.categories.map((c) => c.category.name),
-        },
+        category: v.categories.map((c) => {
+          if (!c.category.parent && !c.category.id) return;
+          return {
+            parent: {
+              id: c.category.parent.id,
+              name: c.category.parent.name,
+            },
+            child: {
+              id: c.category.id,
+              name: c.category.name,
+            },
+          };
+        }),
       };
     });
   }
@@ -61,9 +61,4 @@ export class LegendsService {
   remove(id: number) {
     return `This action removes a #${id} legend`;
   }
-
-  // private createChildCategory(child: Category[]): string[] {
-
-  //   return
-  // }
 }
