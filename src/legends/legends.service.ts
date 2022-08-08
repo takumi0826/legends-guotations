@@ -1,26 +1,30 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaPromise } from '@prisma/client';
 import { PrismaService } from 'src/prisma.service';
 import { CreateLegendDto } from './dto/create-legend.dto';
 import { UpdateLegendDto } from './dto/update-legend.dto';
-
 @Injectable()
 export class LegendsService {
   constructor(private prisma: PrismaService) {}
 
   async create(createLegendDto: CreateLegendDto) {
-    const legend = await this.prisma.legend.create({
-      data: {
-        name: createLegendDto.name,
-        meigen: createLegendDto.meigen,
-      },
+    return await this.prisma.$transaction(async (prisma) => {
+      const legend = await prisma.legend.create({
+        data: {
+          name: createLegendDto.name,
+          meigen: createLegendDto.meigen,
+        },
+      });
+      console.log(legend);
+      const data = createLegendDto.category.map((categoryId) => {
+        return {
+          legendId: legend.id,
+          categoryId,
+        };
+      });
+      console.log(data);
+      return await prisma.legend_category.createMany({ data });
     });
-    const data = createLegendDto.category.map((categoryId) => {
-      return {
-        legendId: legend.id,
-        categoryId,
-      };
-    });
-    return this.prisma.legend_category.createMany({ data });
   }
 
   async findAll() {
