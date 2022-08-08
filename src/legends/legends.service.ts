@@ -15,14 +15,12 @@ export class LegendsService {
           meigen: createLegendDto.meigen,
         },
       });
-      console.log(legend);
       const data = createLegendDto.category.map((categoryId) => {
         return {
           legendId: legend.id,
           categoryId,
         };
       });
-      console.log(data);
       return await prisma.legend_category.createMany({ data });
     });
   }
