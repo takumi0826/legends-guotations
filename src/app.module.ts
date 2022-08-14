@@ -1,11 +1,19 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CategoryModule } from './category/category.module';
 import { LegendsModule } from './legends/legends.module';
 
 @Module({
-  imports: [CategoryModule, LegendsModule],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: `.env.${process.env.NODE_ENV}`,
+    }),
+    CategoryModule,
+    LegendsModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
