@@ -7,6 +7,6 @@ export class AppController {
 
   @Get()
   getAll(): string {
-    return this.appService.getAll();
+    return process.env.ORIGIN;
   }
 }
