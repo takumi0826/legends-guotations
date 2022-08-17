@@ -12,7 +12,6 @@ services:
         target: /api
   mysql:
     image: mysql/mysql-server:5.7
-    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     ports:
       - '3306:3306'
     environment:
@@ -20,8 +19,10 @@ services:
       MYSQL_DATABASE: legends
       MYSQL_USER: root
       MYSQL_PASSWORD: root
+      TZ: Asia/Tokyo
     volumes:
-      - ./initdb:/docker-entrypoint-initdb.d
+      - ./db/init:/docker-entrypoint-initdb.d
+      - ./db/my.cnf:/etc/mysql/conf.d/my.cnf
       - mysql:/var/lib/mysql
 volumes:
   mysql:

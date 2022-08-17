@@ -35,7 +35,7 @@ model parent_category {
 model legend_category {
   legendId   Int
   categoryId Int
-  legend     legend   @relation(fields: [legendId], references: [id])
+  legend     legend   @relation(fields: [legendId], references: [id], onDelete: Cascade)
   category   category @relation(fields: [categoryId], references: [id])
 
   @@id([legendId, categoryId])

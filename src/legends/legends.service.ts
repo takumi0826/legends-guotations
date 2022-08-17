@@ -33,6 +33,7 @@ export class LegendsService {
     });
     return res.map((v) => {
       return {
+        id: v.id,
         meigen: v.meigen,
         name: v.name,
         category: v.categories.map((c) => {
@@ -60,7 +61,8 @@ export class LegendsService {
     return `This action updates a #${id} legend`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} legend`;
+  async remove(ids: number[]) {
+    return await this.prisma.legend.deleteMany({ where: { id: { in: ids } } });
+    // return `This action removes a #${id} legend`;
   }
 }

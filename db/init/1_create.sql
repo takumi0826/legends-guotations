@@ -1,5 +1,9 @@
 -- CreateTable
 
+SET CHARSET UTF8;
+
+CREATE DATABASE IF NOT EXISTS legends DEFAULT CHARACTER SET utf8;
+
 CREATE TABLE
     `legend` (
         `id` INTEGER NOT NULL AUTO_INCREMENT,
@@ -49,7 +53,7 @@ SET NULL ON UPDATE CASCADE;
 
 ALTER TABLE `legend_category`
 ADD
-    CONSTRAINT `legend_category_legendId_fkey` FOREIGN KEY (`legendId`) REFERENCES `legend`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+    CONSTRAINT `legend_category_legendId_fkey` FOREIGN KEY (`legendId`) REFERENCES `legend`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 

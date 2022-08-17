@@ -10,6 +10,7 @@ import {
 import { LegendsService } from './legends.service';
 import { CreateLegendDto } from './dto/create-legend.dto';
 import { UpdateLegendDto } from './dto/update-legend.dto';
+import { IdParamPipe } from 'src/pipe/id-param.pipe';
 
 @Controller('legends')
 export class LegendsController {
@@ -36,7 +37,7 @@ export class LegendsController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.legendsService.remove(+id);
+  remove(@Param('id', IdParamPipe) ids: number[]) {
+    return this.legendsService.remove(ids);
   }
 }
