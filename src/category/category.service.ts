@@ -25,6 +25,18 @@ export class CategoryService {
     });
   }
 
+  async findChild() {
+    return await this.prisma.category.findMany({
+      select: {
+        id: true,
+        name: true,
+      },
+      where: {
+        delFlag: 0,
+      },
+    });
+  }
+
   findOne(id: number) {
     return `This action returns a #${id} category`;
   }
