@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { HttpService } from '@nestjs/axios';
+import { interval, switchMap } from 'rxjs';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -11,9 +12,9 @@ async function bootstrap() {
   });
 
   const http = new HttpService();
-  setInterval(() => {
-    http.get('https://salty-sands-26486.herokuapp.com/');
-  }, 15 * 60 * 1000);
+  interval(15 * 60 * 1000)
+    .pipe(switchMap(() => http.get('https://salty-sands-26486.herokuapp.com/')))
+    .subscribe();
 
   await app.listen(process.env.PORT || 3000, '0.0.0.0');
 }
