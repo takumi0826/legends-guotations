@@ -285,11 +285,11 @@ const transfer = async () => {
 
 // 定義されたデータを実際のモデルへ登録する処理
 const main = async () => {
-  console.log(`Start seeding ...`);
+  console.log(`初期データ登録開始`);
 
   await transfer();
 
-  console.log(`Seeding finished.`);
+  console.log(`初期データ登録終了`);
 };
 
 // 処理開始
