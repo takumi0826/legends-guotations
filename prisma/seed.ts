@@ -120,56 +120,67 @@ const parent = [
 
 const category = [
   {
+    id: 1,
     name: '芸能人',
     delFlag: 0,
     parentId: 1,
   },
   {
+    id: 2,
     name: '歌手',
     delFlag: 0,
     parentId: 1,
   },
   {
+    id: 3,
     name: '芸人・タレント',
     delFlag: 0,
     parentId: 2,
   },
   {
+    id: 4,
     name: 'プロ野球選手',
     delFlag: 0,
     parentId: 3,
   },
   {
+    id: 5,
     name: 'サッカー選手',
     delFlag: 0,
     parentId: 3,
   },
   {
+    id: 6,
     name: 'テニス選手',
     delFlag: 0,
     parentId: 3,
   },
   {
+    id: 7,
     name: '陸上選手',
     delFlag: 0,
     parentId: 3,
   },
   {
+    id: 8,
     name: '漫画家',
     delFlag: 0,
     parentId: 4,
   },
   {
+    id: 9,
     name: '作家',
     delFlag: 0,
     parentId: 4,
   },
   {
+    id: 10,
     name: '作詞家',
     delFlag: 0,
     parentId: 4,
   },
   {
+    id: 99,
     name: '匿名',
     delFlag: 0,
     parentId: 99,
@@ -179,31 +190,31 @@ const category = [
 const legendCategory = [
   {
     legendId: 1,
-    categoryId: 5,
+    categoryId: 1,
   },
   {
     legendId: 2,
-    categoryId: 2,
+    categoryId: 4,
   },
   {
     legendId: 3,
-    categoryId: 5,
+    categoryId: 3,
   },
   {
     legendId: 4,
+    categoryId: 99,
+  },
+  {
+    legendId: 5,
     categoryId: 9,
   },
   {
     legendId: 5,
-    categoryId: 6,
-  },
-  {
-    legendId: 5,
-    categoryId: 7,
+    categoryId: 10,
   },
   {
     legendId: 6,
-    categoryId: 7,
+    categoryId: 10,
   },
   {
     legendId: 7,
@@ -215,47 +226,47 @@ const legendCategory = [
   },
   {
     legendId: 9,
-    categoryId: 2,
-  },
-  {
-    legendId: 10,
     categoryId: 4,
   },
   {
+    legendId: 10,
+    categoryId: 5,
+  },
+  {
     legendId: 11,
-    categoryId: 10,
+    categoryId: 6,
   },
   {
     legendId: 12,
-    categoryId: 2,
+    categoryId: 4,
   },
   {
     legendId: 13,
-    categoryId: 5,
+    categoryId: 3,
   },
   {
     legendId: 14,
-    categoryId: 5,
+    categoryId: 3,
   },
   {
     legendId: 15,
-    categoryId: 5,
+    categoryId: 3,
   },
   {
     legendId: 16,
-    categoryId: 5,
+    categoryId: 3,
   },
   {
     legendId: 17,
-    categoryId: 5,
+    categoryId: 3,
   },
   {
     legendId: 18,
-    categoryId: 5,
+    categoryId: 3,
   },
   {
     legendId: 19,
-    categoryId: 3,
+    categoryId: 2,
   },
   {
     legendId: 20,
