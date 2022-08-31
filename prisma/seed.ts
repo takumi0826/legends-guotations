@@ -4,188 +4,146 @@ const prisma = new PrismaClient();
 
 // モデル投入用のデータ定義
 const legend = [
-  { id: 1, meigen: '生きてるだけで丸儲け', name: '明石家さんま' },
+  { meigen: '生きてるだけで丸儲け', name: '明石家さんま' },
   {
-    id: 2,
     meigen:
       '結果が出ないとき、どういう自分でいられるか。決してあきらめない姿勢が何を生み出すきっかけをつくる',
     name: 'イチロー',
   },
-  { id: 3, meigen: '嫌がるのはもう撮れてるからw', name: '木梨憲武' },
-  { id: 4, meigen: '濱家体毛薄そうなのに足の毛バリ濃くて草', name: '匿名' },
+  { meigen: '嫌がるのはもう撮れてるからw', name: '木梨憲武' },
+  { meigen: '濱家体毛薄そうなのに足の毛バリ濃くて草', name: '匿名' },
   {
-    id: 5,
     meigen: '人はそれぞれ事情をかかえ、平然と生きている',
     name: '伊集院静',
   },
   {
-    id: 6,
     meigen: 'いつか、必ず、チャンスの順番が来ると信じなさい',
     name: '秋元康',
   },
   {
-    id: 7,
     meigen: '人を信じよ、しかし、その百倍も自らを信じよ',
     name: '手塚治虫',
   },
   {
-    id: 8,
     meigen: 'しないではいられないことを、 し続けなさい',
     name: '水木しげる',
   },
   {
-    id: 9,
     meigen:
       '努力は必ず報われる。もし報われない努力があるのならば、それはまだ努力と呼べない',
     name: '王貞治',
   },
   {
-    id: 10,
     meigen: '結果にこだわるな、成功にこだわるな、成長にこだわれ',
     name: '本田圭佑',
   },
   {
-    id: 11,
     meigen: '勝ち負けなんかちっぽけなこと。大事なことは本気だったかどうかだ',
     name: '松岡修造',
   },
   {
-    id: 12,
     meigen: '自己犠牲を厭わない人には、信頼が集まる',
     name: '野村克也',
   },
-  { id: 13, meigen: '俺は寝ている時は、真面目だよ', name: '高田純次' },
+  { meigen: '俺は寝ている時は、真面目だよ', name: '高田純次' },
   {
-    id: 14,
     meigen: '自分を少し抑えて、肩の力を抜けば、仕事は長続きする',
     name: '関根勤',
   },
   {
-    id: 15,
     meigen:
       '努力ってのは宝くじみたいなものだよ。買っても当たるかどうかはわからないけど、買わなきゃ当たらない',
     name: 'ビートたけし',
   },
   {
-    id: 16,
     meigen: '下積みはつらくなかった。だって好きなことだから',
     name: '石橋貴明',
   },
-  { id: 17, meigen: '明日死ぬとしても笑うわ', name: '松本人志' },
+  { meigen: '明日死ぬとしても笑うわ', name: '松本人志' },
   {
-    id: 18,
     meigen: '俺はこの先お笑い一本で考えていない。相方が偉大すぎて',
     name: '浜田雅功',
   },
   {
-    id: 19,
     meigen: '人生というのは、失うものを増やしていくゲームなんだ',
     name: '矢沢永吉',
   },
   {
-    id: 20,
     meigen:
       'あんまり若いうちからしっかりしすぎちゃダメよ。嫌なときは仕事バックれちゃったりとかしていいのよ',
     name: 'マツコ・デラックス',
   },
-];
+].map((v, index) => ({ id: index + 1, name: v.name, meigen: v.meigen }));
 
 const parent = [
   {
-    id: 1,
     name: '芸能人',
-    delFlag: 0,
   },
   {
-    id: 2,
     name: '芸人・タレント',
-    delFlag: 0,
   },
   {
-    id: 3,
     name: 'アスリート',
-    delFlag: 0,
   },
   {
-    id: 4,
     name: 'クリエイター',
-    delFlag: 0,
   },
   {
-    id: 99,
-    name: '匿名',
-    delFlag: 0,
+    name: 'その他',
   },
-];
+].map((v, index) => ({ id: index + 1, name: v.name, delFlag: 0 }));
 
 const category = [
   {
-    id: 1,
     name: '芸能人',
-    delFlag: 0,
     parentId: 1,
   },
   {
-    id: 2,
     name: '歌手',
-    delFlag: 0,
     parentId: 1,
   },
   {
-    id: 3,
     name: '芸人・タレント',
-    delFlag: 0,
     parentId: 2,
   },
   {
-    id: 4,
     name: 'プロ野球選手',
-    delFlag: 0,
     parentId: 3,
   },
   {
-    id: 5,
     name: 'サッカー選手',
-    delFlag: 0,
     parentId: 3,
   },
   {
-    id: 6,
     name: 'テニス選手',
-    delFlag: 0,
     parentId: 3,
   },
   {
-    id: 7,
     name: '陸上選手',
-    delFlag: 0,
     parentId: 3,
   },
   {
-    id: 8,
     name: '漫画家',
-    delFlag: 0,
     parentId: 4,
   },
   {
-    id: 9,
     name: '作家',
-    delFlag: 0,
     parentId: 4,
   },
   {
-    id: 10,
     name: '作詞家',
-    delFlag: 0,
     parentId: 4,
   },
   {
-    id: 99,
     name: 'その他',
-    delFlag: 0,
-    parentId: 99,
+    parentId: parent.length,
   },
-];
+].map((v, index) => ({
+  id: index + 1,
+  name: v.name,
+  delFlag: 0,
+  parentId: v.parentId,
+}));
 
 const legendCategory = [
   {
@@ -202,7 +160,7 @@ const legendCategory = [
   },
   {
     legendId: 4,
-    categoryId: 99,
+    categoryId: category.length,
   },
   {
     legendId: 5,
