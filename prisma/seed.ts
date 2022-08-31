@@ -181,7 +181,7 @@ const category = [
   },
   {
     id: 99,
-    name: '匿名',
+    name: 'その他',
     delFlag: 0,
     parentId: 99,
   },
@@ -190,7 +190,7 @@ const category = [
 const legendCategory = [
   {
     legendId: 1,
-    categoryId: 1,
+    categoryId: 3,
   },
   {
     legendId: 2,
