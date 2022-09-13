@@ -6,6 +6,9 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
+  ParseIntPipe,
+  DefaultValuePipe,
 } from '@nestjs/common';
 import { LegendsService } from './legends.service';
 import { CreateLegendDto } from './dto/create-legend.dto';
@@ -22,8 +25,11 @@ export class LegendsController {
   }
 
   @Get('/find-all')
-  findAll() {
-    return this.legendsService.findAll();
+  findAll(
+    @Query('limit', new DefaultValuePipe(0), ParseIntPipe) limit: number,
+    @Query('offset', new DefaultValuePipe(0), ParseIntPipe) offset: number,
+  ) {
+    return this.legendsService.findAll({ limit, offset });
   }
 
   @Get(':id')

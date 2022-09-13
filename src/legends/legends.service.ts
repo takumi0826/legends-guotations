@@ -25,32 +25,39 @@ export class LegendsService {
     });
   }
 
-  async findAll() {
+  async findAll({ limit, offset }: { limit: number; offset: number }) {
     const res = await this.prisma.legend.findMany({
       include: {
         categories: { include: { category: { include: { parent: true } } } },
       },
+      take: limit ? limit : undefined,
+      skip: offset ? offset : undefined,
+      orderBy: { id: 'desc' }, // TODO 作成日時を指定
     });
-    return res.map((v) => {
-      return {
-        id: v.id,
-        meigen: v.meigen,
-        name: v.name,
-        category: v.categories.map((c) => {
-          if (!c.category.parent && !c.category.id) return;
-          return {
-            parent: {
-              id: c.category.parent.id,
-              name: c.category.parent.name,
-            },
-            child: {
-              id: c.category.id,
-              name: c.category.name,
-            },
-          };
-        }),
-      };
-    });
+    const total = await this.prisma.legend.count();
+    return {
+      legends: res.map((v) => {
+        return {
+          id: v.id,
+          meigen: v.meigen,
+          name: v.name,
+          category: v.categories.map((c) => {
+            if (!c.category.parent && !c.category.id) return;
+            return {
+              parent: {
+                id: c.category.parent.id,
+                name: c.category.parent.name,
+              },
+              child: {
+                id: c.category.id,
+                name: c.category.name,
+              },
+            };
+          }),
+        };
+      }),
+      total,
+    };
   }
 
   findOne(id: number) {
