@@ -243,7 +243,7 @@ const dataLegend = [...Array(100)].map((v, i) => {
 const dataLC = [...Array(100)].map((v, i) => {
   return {
     legendId: legend.length + (1 + i),
-    categoryId: Math.floor(Math.random() * 10 + 1),
+    categoryId: Math.floor(Math.random() * category.length + 1),
   };
 });
 
