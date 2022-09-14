@@ -234,14 +234,15 @@ const legendCategory = [
 
 const dataLegend = [...Array(100)].map((v, i) => {
   return {
-    meigen: `テストデータ名言${i}`,
-    name: `No.${i}: テストデータ`,
+    id: legend.length + (1 + i),
+    meigen: `テストデータ名言${i + 1}`,
+    name: `No.${i + 1}: テストデータ`,
   };
 });
 
 const dataLC = [...Array(100)].map((v, i) => {
   return {
-    legendId: 21 + i,
+    legendId: legend.length + (1 + i),
     categoryId: Math.floor(Math.random() * 10 + 1),
   };
 });
