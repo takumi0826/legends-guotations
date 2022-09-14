@@ -232,12 +232,28 @@ const legendCategory = [
   },
 ];
 
+const dataLegend = [...Array(100)].map((v, i) => {
+  return {
+    meigen: `テストデータ名言${i}`,
+    name: `No.${i}: テストデータ`,
+  };
+});
+
+const dataLC = [...Array(100)].map((v, i) => {
+  return {
+    legendId: 21 + i,
+    categoryId: Math.floor(Math.random() * 10 + 1),
+  };
+});
+
 const transfer = async () => {
   return await prisma.$transaction(async () => {
-    await prisma.legend.createMany({ data: legend });
+    await prisma.legend.createMany({ data: [...legend, ...dataLegend] });
     await prisma.parent_category.createMany({ data: parent });
     await prisma.category.createMany({ data: category });
-    return await prisma.legend_category.createMany({ data: legendCategory });
+    return await prisma.legend_category.createMany({
+      data: [...legendCategory, ...dataLC],
+    });
   });
 };
 
